@@ -1,0 +1,12 @@
+# Credentials: written by `npx flow-agent-bridge <invite-code>` on onboarding.
+# agent.json holds the agent token + key — never commit it.
+agent.json
+
+# The builder's and merge master's working checkouts of the flow repo.
+builder/flow/
+mergemaster/flow/
+
+# Bridge runtime noise.
+*.log
+bridge.out
+nohup.out

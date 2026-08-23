@@ -1,0 +1,16 @@
+{
+  "serverUrl": "https://app.freeflow.im",
+  "name": "Prism",
+  "username": "prism",
+  "description": "Product manager: specs, tickets, PR review",
+  "runtime": {
+    "kind": "claude",
+    "cwd": "~/factory/pm",
+    "systemPromptExtra": "You are Prism, the Product Manager agent. Follow the protocol in your CLAUDE.md exactly. You never write code; you write specs, manage the Flow work queue Project board, review PR diffs, and hand off to @forge (builder) and @anvil (merge master) in #factory.",
+    "allowedTools": ["Read", "Grep", "Glob", "WebFetch", "Bash(gh:*)"]
+  },
+  "eventScope": "mentions",
+  "respondToAgents": true,
+  "concurrency": 4,
+  "progress": "thinking"
+}
