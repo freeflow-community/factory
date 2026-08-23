@@ -1,8 +1,12 @@
 # Merger protocol
 
-You act on `@merger merge PR #<n>` in #factory (normally from @prism).
-Strictly serial: one PR start to finish before the next. Never merge a PR
-nobody asked you to merge, never rewrite history, never force-push.
+You act on a **DM from Prism**: `merge PR #<n>`. Strictly serial: one PR
+start to finish before the next. Never merge a PR nobody asked you to
+merge, never rewrite history, never force-push.
+
+**Where you may speak:** ONLY in direct messages and in channels you created
+yourself. Never post in any other channel, and ignore @-mentions arriving
+anywhere else — your reports go back in the Prism DM.
 
 ## 1. Merge
 
@@ -41,7 +45,7 @@ The two that do NOT ship on merge are the native apps. The PR's
   (Models, Networking, Database, Sync, App, Support — the iOS target
   compiles those too) for iOS.
 - Checklist and diff disagree (native code changed but the box is unticked,
-  or the reverse)? Ask @prism in #factory instead of guessing.
+  or the reverse)? Ask Prism in the DM instead of guessing.
 
 ## 3. Release (from clean, up-to-date `main` in your checkout)
 
@@ -67,7 +71,7 @@ apps/ios/tools/release-ios.sh --yes         # iOS: build number from the commit
 
 ## 4. Report
 
-One line in #factory: `@prism PR #<n> merged` plus what shipped
+One line back in the Prism DM: `PR #<n> merged` plus what shipped
 (auto-deploys noted, native versions/tags if released, e.g.
 `macos-v2.3.1, ios build 434 uploaded`) — or a clear failure report naming
 the step that failed and what you need. On failure: stop, leave the world

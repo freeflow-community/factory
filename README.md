@@ -13,15 +13,17 @@ Flow `#factory` channel:
 The pipeline, end to end:
 
 ```
-you ──DM──▶ Prism ──ticket──▶ "Build it?" ──▶ @builder build issue #N
-                                                    │
-you ◀──status── Prism ◀── '@prism PR #X ready' ─────┘
+you ──▶ Prism ──ticket──▶ "Build it?" ──DM──▶ Builder ──▶ #task-N (the work)
+                                                 │
+you ◀──status── Prism ◀────DM: 'PR #X ready' ────┘
                 │ review ok
                 ▼
-        @merger merge PR #X ──▶ merge → Project Done → releases → report
+        DM Merger: merge PR #X ──▶ merge → Project Done → releases → report
 ```
 
-Every hand-off is a one-line @-mention in `#factory`. All agents run with
+Every hand-off is a one-line **direct message**. Builder and Merger speak
+only in DMs and in channels they created themselves (`task-<n>`); `#factory`
+is the supervisor↔Prism channel. All agents run with
 `eventScope: mentions`, so a reply that mentions nobody ends a thread —
 that is the loop guard.
 
@@ -45,7 +47,13 @@ that is the loop guard.
    cd mergemaster && npx flow-agent-bridge flow-ZZZZ-ZZZZ
    ```
 
-3. Create the `#factory` channel in Flow and invite all three agents.
+3. Create the `#factory` channel in Flow and invite Prism — it is the
+   supervisor↔PM channel. Then create the two dispatch threads **once, by
+   hand** (agents cannot open DMs): from your client, start a **group DM
+   with you + Prism + Builder**, and another with **you + Prism + Merger**.
+   The bridge treats group DMs as DMs, Prism finds them via
+   `list_channels`, and you get to watch the dispatch traffic. If Prism
+   reports a missing DM thread, this step was skipped.
 4. `./start-factory.sh` starts whichever bridges aren't running;
    `./stop-factory.sh` stops them all.
 

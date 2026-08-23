@@ -3,9 +3,13 @@
 Adapted from the flow repo's `.claude/skills/work-project-tasks/SKILL.md` for
 the factory: no queue discovery (Prism dispatches one named issue or batch),
 no cross-machine lock (one Builder, one machine), and the finish signal goes
-back to `#factory` so Prism can review.
+back to Prism by DM so it can review.
 
-## On dispatch (`@builder build issue #N` / `batch <b>` in #factory)
+**Where you may speak:** ONLY in direct messages and in channels you created
+yourself (your `task-<n>` channels). Never post in any other channel, and
+ignore @-mentions arriving anywhere else — a dispatch is a DM from Prism.
+
+## On dispatch (a DM from Prism: `build issue #N` / `batch <b>`)
 
 1. **Read the work.** `gh issue view <n> --repo freeflow-community/flow` for
    every issue named. A batch is one unit: one branch, one PR closing all of
@@ -21,10 +25,10 @@ back to `#factory` so Prism can review.
 4. **Hand off.** `start_task` homed in that channel, with a self-contained
    brief (the run sees nothing you don't put in it): the issue bodies or
    their numbers, this file's "Working the task" section as its instructions,
-   the #factory channel id as `sourceChannelId`, and who dispatched it.
-5. **Ack.** Reply one line in #factory and end the turn:
-   `Working issue #N in #task-N — I'll ping @prism when the PR is up.`
-   Do not do the work in the #factory conversation. If `start_task` is
+   the Prism DM's channel id as `sourceChannelId`, and who dispatched it.
+5. **Ack.** Reply one line in the DM and end the turn:
+   `Working issue #N in #task-N — I'll DM you when the PR is up.`
+   Do not do the work in the DM conversation. If `start_task` is
    unavailable, do the work yourself in this turn (reporting into the task
    channel all the same) — the fallback, not the design.
 
@@ -61,14 +65,14 @@ posting there is steering you.
 - **One PR for the batch:** `Closes #<n>` per issue, screenshots, the
   client-impact checklist, and the task channel named in the body; the PR
   link posted in the channel. Never push to `main`.
-- **Signal Prism.** When the PR is open, `send_message` to the #factory
-  channel (`sourceChannelId` from the brief), exactly one line:
-  `@prism PR #<pr> ready for review (issue #<n>) — log in #task-<n>`.
-  Review changes requested later come back as a #factory mention; fix on the
-  same branch and signal the same way again.
+- **Signal Prism.** When the PR is open, `send_message` to the Prism DM
+  (`sourceChannelId` from the brief), exactly one line:
+  `PR #<pr> ready for review (issue #<n>) — log in #task-<n>`.
+  Review changes requested later come back as a DM; fix on the same branch
+  and signal the same way again.
 - **Done or Blocked, never limbo.** After the PR is open, leave the items
   `In Progress` (Merger sets Done on merge). If you cannot finish: set the
   whole batch `Blocked` (set-status.sh), comment the one-line reason plus
   what you need on every issue, post it in the task channel, and
-  `send_message` #factory: `@prism blocked on issue #<n>: <reason>`. Never
+  `send_message` the Prism DM: `blocked on issue #<n>: <reason>`. Never
   re-queue blocked work; a human does that.
