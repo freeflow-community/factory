@@ -14,6 +14,8 @@ for a in pm builder mergemaster; do
     echo "$a: no agent.json — cd $a && npx flow-agent-bridge <invite-code>  (uses agent.example.json)"
     continue
   fi
-  (cd "$a" && nohup npx flow-agent-bridge agent.json >> bridge.out 2>&1 &)
+  # absolute agent.json path so the pgrep above (and stop-factory.sh) can
+  # identify the process by its command line
+  (cd "$a" && nohup npx flow-agent-bridge "$PWD/agent.json" >> bridge.out 2>&1 &)
   echo "$a: started (log: $a/agent.log)"
 done
