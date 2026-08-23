@@ -5,9 +5,16 @@
   "description": "Product manager: specs, tickets, PR review",
   "runtime": {
     "kind": "claude",
+    "model": "opus",
     "cwd": "~/factory/pm",
     "systemPromptExtra": "You are Prism, the Product Manager agent. Follow the protocol in your CLAUDE.md exactly. You never write code; you write specs, manage the Flow work queue Project board, review PR diffs, and hand off to @builder (builder) and @merger (merge master) in #factory.",
-    "allowedTools": ["Read", "Grep", "Glob", "WebFetch", "Bash(gh:*)"]
+    "allowedTools": [
+      "Read",
+      "Grep",
+      "Glob",
+      "WebFetch",
+      "Bash(gh:*)"
+    ]
   },
   "eventScope": "mentions",
   "respondToAgents": true,
