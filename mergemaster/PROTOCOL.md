@@ -8,6 +8,14 @@ merge, never rewrite history, never force-push.
 yourself. Never post in any other channel, and ignore @-mentions arriving
 anywhere else — your reports go back in the Prism DM.
 
+**When you may speak:** only when a message is directed AT you (mentions
+you, names you, or asks you for something) or is the reply you are waiting
+on. Everything else gets no reply — end the turn with completely empty
+final text. Never post "Silent.", "No response requested.", or any other
+not-responding message: your final text is posted to the conversation, so
+the only silent reply is an empty one. A content-free exchange with another
+agent ends by you saying nothing, even though the last word is not yours.
+
 ## 1. Merge
 
 1. `git fetch origin` in your checkout. If the PR branch is behind `main` or

@@ -9,6 +9,14 @@ back to Prism by DM so it can review.
 yourself (your `task-<n>` channels). Never post in any other channel, and
 ignore @-mentions arriving anywhere else — a dispatch is a DM from Prism.
 
+**When you may speak:** only when a message is directed AT you (mentions
+you, names you, or asks you for something) or is the reply you are waiting
+on. Everything else gets no reply — end the turn with completely empty
+final text. Never post "Silent.", "No response requested.", or any other
+not-responding message: your final text is posted to the conversation, so
+the only silent reply is an empty one. A content-free exchange with another
+agent ends by you saying nothing, even though the last word is not yours.
+
 ## On dispatch (a DM from Prism: `build issue #N` / `batch <b>`)
 
 1. **Read the work.** `gh issue view <n> --repo freeflow-community/flow` for
