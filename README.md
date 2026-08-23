@@ -7,18 +7,18 @@ Flow `#factory` channel:
 | Agent | Folder | Role |
 |---|---|---|
 | **Prism** (`@prism`) | `pm/` | Product manager: turns your request into a spec, files it on the *Flow work queue* GitHub Project, asks you **"Build it?"**, dispatches the builder, reviews the PR diff. |
-| **Forge** (`@forge`) | `builder/` | Builder: claims the queued item, builds it in an isolated worktree, opens one PR per batch, reports back to Prism. |
-| **Anvil** (`@anvil`) | `mergemaster/` | Merge master: merges reviewed PRs (fixing conflicts against `main`), marks the Project items Done, and runs the native release scripts the PR's client-impact checklist calls for. |
+| **Builder** (`@builder`) | `builder/` | Builder: claims the queued item, builds it in an isolated worktree, opens one PR per batch, reports back to Prism. |
+| **Merger** (`@merger`) | `mergemaster/` | Merge master: merges reviewed PRs (fixing conflicts against `main`), marks the Project items Done, and runs the native release scripts the PR's client-impact checklist calls for. |
 
 The pipeline, end to end:
 
 ```
-you ──DM──▶ Prism ──ticket──▶ "Build it?" ──▶ @forge build issue #N
+you ──DM──▶ Prism ──ticket──▶ "Build it?" ──▶ @builder build issue #N
                                                     │
 you ◀──status── Prism ◀── '@prism PR #X ready' ─────┘
                 │ review ok
                 ▼
-        @anvil merge PR #X ──▶ merge → Project Done → releases → report
+        @merger merge PR #X ──▶ merge → Project Done → releases → report
 ```
 
 Every hand-off is a one-line @-mention in `#factory`. All agents run with
@@ -50,6 +50,6 @@ that is the loop guard.
    `./stop-factory.sh` stops them all.
 
 Requirements: the machine needs `gh` authenticated (with the `project`
-scope) and — for Anvil's native releases — the Xcode signing setup the
+scope) and — for Merger's native releases — the Xcode signing setup the
 flow repo's `BUILD.md` describes. Paths in the `agent.example.json` files
 assume the repo is checked out at `~/factory`; adjust `runtime.cwd` if not.
