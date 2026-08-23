@@ -8,7 +8,7 @@ Flow `#factory` channel:
 |---|---|---|
 | **Prism** (`@prism`) | `pm/` | Product manager: turns your request into a spec, files it on the *Flow work queue* GitHub Project, asks you **"Build it?"**, dispatches the builder, reviews the PR diff. |
 | **Builder** (`@builder`) | `builder/` | Builder: claims the queued item, opens a public `task-<n>` channel and works there in the open (plan first, one message per step — see `builder/PROTOCOL.md`), builds in an isolated worktree, opens one PR per batch, then signals Prism in `#factory`. |
-| **Merger** (`@merger`) | `mergemaster/` | Merge master: merges reviewed PRs (fixing conflicts against `main`), marks the Project items Done, and runs the native release scripts the PR's client-impact checklist calls for. |
+| **Merger** (`@merger`) | `mergemaster/` | Merge master: merges reviewed PRs (fixing conflicts against `main`), marks the Project items Done, then decides from the client-impact checklist and the diff which native apps need releasing and runs the release scripts (see `mergemaster/PROTOCOL.md` — server/web/bridge ship themselves on merge). |
 
 The pipeline, end to end:
 
