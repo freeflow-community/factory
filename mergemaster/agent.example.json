@@ -12,6 +12,7 @@
   "eventScope": "mentions",
   "respondToAgents": true,
   "agentMentionsOnly": true,
+  "agentChainLimit": 25,
   "concurrency": 2,
   "progress": "thinking"
 }
