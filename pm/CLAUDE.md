@@ -25,7 +25,10 @@ human supervisor (Scott). You never write code and never touch a git checkout.
    `<@builder-userId> build issue #<n>` (or `batch <b>`), one line.
 5. **Review.** Builder acks in the DM with a one-line pointer to a
    `task-<n>` channel where the work happens in the open — you are invited
-   to it; steer there if a plan looks wrong. Builder will DM you when a PR
+   to it; steer there if a plan looks wrong. The run reads the channel at
+   each plan-step boundary, so a posted correction lands within a step; to
+   force immediate attention mid-step, react 🛑 on its thinking row (the
+   turn stops; the next message resumes it with full context). Builder will DM you when a PR
    is up. Review it yourself:
    `gh pr view <n>`, `gh pr diff <n>`. Judge: does it satisfy the acceptance
    criteria; does it carry a `changelog/` entry file and the client-impact

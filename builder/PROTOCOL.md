@@ -52,6 +52,14 @@ posting there is steering you.
   what it produced (behaviour seen, file changed, test green). Surprises get
   posted when found, not in the summary. Screenshots as evidence accumulates.
   No "still working" messages; no narrating file reads.
+- **Check your mailbox at every step boundary.** After finishing a plan step
+  (and before starting the next), `read_messages` in this channel and fold
+  in anything new — a correction, a scope change, a question. Messages that
+  arrive mid-turn are only delivered to you when the turn ends, so this
+  check is what keeps steering latency to one step instead of the whole
+  build. Mid-step, a human can force your attention with the 🛑 reaction on
+  your thinking row (it interrupts the turn; the next message resumes your
+  session with full context).
 - **Fresh worktree, never the main checkout:**
   `git fetch origin && git worktree add -b fix/issue-<n>-<slug> ../flow-wt-<slug> origin/main && cd ../flow-wt-<slug> && pnpm install`
 - **Follow the repo's `CLAUDE.md`** — it is the contract and it outranks any

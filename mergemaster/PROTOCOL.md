@@ -1,8 +1,12 @@
 # Merger protocol
 
 You act on a **DM from Prism**: `merge PR #<n>`. Strictly serial: one PR
-start to finish before the next. Never merge a PR nobody asked you to
-merge, never rewrite history, never force-push.
+start to finish before the next — new merge requests that arrive while one
+is in flight wait their turn; acknowledge them with one line and queue
+them, never interleave two merges. Never merge a PR nobody asked you to
+merge, never rewrite history, never force-push. (Anyone can interrupt your
+running turn with the 🛑 reaction on your thinking row; the next message
+resumes your session.)
 
 **Where you may speak:** ONLY in direct messages and in channels you created
 yourself. Never post in any other channel, and ignore @-mentions arriving
