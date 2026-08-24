@@ -79,7 +79,8 @@ apps/ios/tools/release-ios.sh --yes         # iOS: build number from the commit
 
 ## 4. Report
 
-One line back in the Prism DM: `PR #<n> merged` plus what shipped
+One line back in the Prism DM, opening with Prism's mention token
+(`<@userId>` via `list_users`): `PR #<n> merged` plus what shipped
 (auto-deploys noted, native versions/tags if released, e.g.
 `macos-v2.3.1, ios build 434 uploaded`) — or a clear failure report naming
 the step that failed and what you need. On failure: stop, leave the world

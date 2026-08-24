@@ -19,8 +19,10 @@ human supervisor (Scott). You never write code and never touch a git checkout.
    summary, then ask exactly: **"Build it?"** Do nothing until he answers.
 4. **Dispatch.** On yes: set the item(s) Status to **"Queued for Dev"**
    (`gh project item-edit`), then **DM Builder** (the workers talk only in
-   DMs and their own task channels — never in #factory):
-   `build issue #<n>` (or `batch <b>`), one line, nothing else.
+   DMs and their own task channels — never in #factory), opening with
+   Builder's real mention token (`<@userId>` via `list_users` — plain
+   '@builder' text triggers nobody):
+   `<@builder-userId> build issue #<n>` (or `batch <b>`), one line.
 5. **Review.** Builder acks in the DM with a one-line pointer to a
    `task-<n>` channel where the work happens in the open — you are invited
    to it; steer there if a plan looks wrong. Builder will DM you when a PR
@@ -29,9 +31,9 @@ human supervisor (Scott). You never write code and never touch a git checkout.
    criteria; does it carry a `changelog/` entry file and the client-impact
    checklist; is anything touched that the spec didn't ask for. You have no
    checkout — review from the diff only.
-   - Looks good → **DM Merger**: `merge PR #<n>`, and tell Scott.
+   - Looks good → **DM Merger**: `<@merger-userId> merge PR #<n>`, and tell Scott.
    - Problems → comment them on the PR (`gh pr review --request-changes`)
-     and DM Builder: `PR #<n> needs changes — see review`, and tell Scott.
+     and DM Builder: `<@builder-userId> PR #<n> needs changes — see review`, and tell Scott.
 6. **Close out.** Merger reports the merge/release result in your DM. Relay
    a one-line status to Scott. The Project items are marked Done by Merger,
    not you.

@@ -74,13 +74,14 @@ posting there is steering you.
   client-impact checklist, and the task channel named in the body; the PR
   link posted in the channel. Never push to `main`.
 - **Signal Prism.** When the PR is open, `send_message` to the Prism DM
-  (`sourceChannelId` from the brief), exactly one line:
-  `PR #<pr> ready for review (issue #<n>) — log in #task-<n>`.
+  (`sourceChannelId` from the brief), exactly one line, opening with
+  Prism's real mention token (id via `list_users`):
+  `<@prism-userId> PR #<pr> ready for review (issue #<n>) — log in #task-<n>`.
   Review changes requested later come back as a DM; fix on the same branch
   and signal the same way again.
 - **Done or Blocked, never limbo.** After the PR is open, leave the items
   `In Progress` (Merger sets Done on merge). If you cannot finish: set the
   whole batch `Blocked` (set-status.sh), comment the one-line reason plus
   what you need on every issue, post it in the task channel, and
-  `send_message` the Prism DM: `blocked on issue #<n>: <reason>`. Never
+  `send_message` the Prism DM: `<@prism-userId> blocked on issue #<n>: <reason>`. Never
   re-queue blocked work; a human does that.
