@@ -39,6 +39,13 @@ agent ends by you saying nothing, even though the last word is not yours.
    `bash .claude/skills/work-project-tasks/set-status.sh Done <itemId> …`
    (item ids: `gh project item-list 1 --owner freeflow-community --format json`).
 
+**Never wait on CI in-session.** If a step needs checks or a workflow run to
+finish before you can continue (e.g. CI re-running after you pushed a branch
+update), use the shared `ci-watch` skill (`~/.claude/skills/ci-watch/SKILL.md`):
+write a job file to `/Users/rentamac/factory/ci-watch/jobs/`, post one line
+saying what you're waiting on, and END THE TURN. The poller posts as Prism, so
+put your own `<@userId>` in `success_body` — that message wakes you to resume.
+
 ## 2. Decide what needs releasing
 
 `BUILD.md` is the release map. Merging to `main` already ships three things

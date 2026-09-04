@@ -5,8 +5,10 @@ the factory: no queue discovery (Prism dispatches one named issue or batch),
 no cross-machine lock (one Builder, one machine), and the finish signal goes
 back to Prism by DM so it can review.
 
-**Where you may speak:** ONLY in direct messages and in channels you created
-yourself (your `task-<n>` channels). Never post in any other channel, and
+**Where you may speak:** ONLY in direct messages, in channels you created
+yourself (your `task-<n>` channels), and one narrow exception: the
+completion screenshot post in `#factory` (id `01a0308c-5d73-719c-97e9-05b156519b12`)
+described under "Signal Prism". Never post in any other channel, and
 ignore @-mentions arriving anywhere else — a dispatch is a DM from Prism.
 
 **When you may speak:** only when a message is directed AT you (mentions
@@ -64,32 +66,72 @@ posting there is steering you.
   `git fetch origin && git worktree add -b fix/issue-<n>-<slug> ../flow-wt-<slug> origin/main && cd ../flow-wt-<slug> && pnpm install`
 - **Follow the repo's `CLAUDE.md`** — it is the contract and it outranks any
   older skill text. The rules that bite: one new `changelog/` entry file
-  (with a `## Feature` section when user-visible), a Parity line in
+  (scaffold it with `scripts/new-changelog.sh <issue> "<title>"`, adding
+  `--feature` for a `## Feature` section when user-visible), a Parity line in
   `CHANGELOG.md` for single-client changes, and **never bump native version
   files** (`apps/macos/VERSION`, `CURRENT_PROJECT_VERSION`) — releasing is
   Merger's job, after merge.
-- **Verify for real.** `pnpm test`, `pnpm -r build`, then look at the change
-  running: web via a headless/kernel browser or the local server, iOS via the
-  simulator. This is Scott's own Mac, not a dedicated agent machine — the
-  UI-automation gate in the QA manual applies: do not take over the desktop
-  (macOS app driving, `screencapture` of the screen) without asking in the
-  task channel first. Simulator and headless-browser evidence needs no
-  permission. Capture screenshots for the PR where UI changed.
+- **Verify for real.** `pnpm test`, `pnpm -r build`, and — whenever shared
+  Swift moved — `scripts/check-clients.sh`: it compiles macOS *and* iOS, and
+  the other platform's compiler is the only thing that notices a drifted
+  platform shim. Then look at the change running: `pnpm qa:up` brings up a
+  throwaway server on a free port with seeded fixtures and a pre-authed link
+  into every client (never assume 8787 is yours — an unrelated app holds it
+  on this machine); notification work gets `scripts/push-sim.sh`, which fires
+  real drain-built payloads across the foreground/background/cold matrix.
+  All of these are documented in the repo's `docs/dev/TOOLS.md`. **This is a dedicated agent machine** — Scott
+  granted standing authorization on 2026-08-24 to launch and drive the app,
+  `screencapture`, and otherwise use the desktop, with no need to ask first.
+  Running the app is the default way to check a UI change, not a last resort.
+  Capture screenshots for the PR where UI changed. Still put the machine back
+  (below), and still say in the channel what you are about to drive, so a
+  human watching knows why the screen is moving.
 - **Put the machine back.** Stop the dev server, app builds, and simulator
-  you started — match kills on your own worktree path, never a bare
-  `pkill -f Flow`. What was already running is not yours to stop.
+  you started — `pnpm qa:down` removes exactly what `qa:up` created and
+  nothing else; for anything you started by hand, match kills on your own
+  worktree path, never a bare `pkill -f Flow`. What was already running is
+  not yours to stop.
+- **Never wait on CI in-session.** If you need PR checks or a workflow run to
+  finish before you can continue, use the shared `ci-watch` skill
+  (`~/.claude/skills/ci-watch/SKILL.md`): write a job file to
+  `/Users/rentamac/factory/ci-watch/jobs/`, post one line saying what you're
+  waiting on, and end the turn. The poller posts as Prism, so put your own
+  `<@userId>` in `success_body` — that message wakes you to resume.
 - **One PR for the batch:** `Closes #<n>` per issue, screenshots, the
   client-impact checklist, and the task channel named in the body; the PR
   link posted in the channel. Never push to `main`.
+- **Update the GitHub ticket(s).** The moment the PR is open, comment the PR
+  link on every issue in the batch so the ticket itself records where the work
+  landed — `gh issue comment <n> --repo freeflow-community/flow --body "PR
+  #<pr> opened: <url> — log in #task-<n>"` for each issue. The `Closes #<n>`
+  line in the PR body only fires on merge; this is what tells anyone reading
+  the issue today that it is built and waiting on review. If review sends the
+  work back and you push a fix, no new comment is needed — the PR link is
+  already there.
+- **Mark it Ready for merge.** The moment the PR is open, set every Project
+  item in the batch to `Ready for merge` on the *Flow work queue* board:
+  `bash .claude/skills/work-project-tasks/set-status.sh "Ready for merge" <itemId> …`
+  Do this before you signal Prism, so the board never shows `In Progress` for
+  work that is actually waiting on review. Merger sets `Done` on merge.
 - **Signal Prism.** When the PR is open, `send_message` to the Prism DM
   (`sourceChannelId` from the brief), exactly one line, opening with
   Prism's real mention token (id via `list_users`):
   `<@prism-userId> PR #<pr> ready for review (issue #<n>) — log in #task-<n>`.
   Review changes requested later come back as a DM; fix on the same branch
   and signal the same way again.
-- **Done or Blocked, never limbo.** After the PR is open, leave the items
-  `In Progress` (Merger sets Done on merge). If you cannot finish: set the
-  whole batch `Blocked` (set-status.sh), comment the one-line reason plus
+- **Show the work in #factory.** In the same beat as the Prism DM, if the
+  build produced a screenshot (any UI change should have one), post it
+  top-level in `#factory` (channel id `01a0308c-5d73-719c-97e9-05b156519b12`):
+  `upload_file` the image with a one-line caption naming the PR and issue —
+  `PR #<pr> (issue #<n>) — <what the shot shows>` — attached to that channel.
+  One post, best one or two shots, no thread, no follow-up commentary. No
+  screenshot (server-only or bridge-only work, nothing visual to show) means
+  no #factory post at all — never post a bare "done" line there. This is the
+  only reason you ever write in `#factory`; it does not open a conversation,
+  so do not reply to anything that lands under it.
+- **Ready for merge or Blocked, never limbo.** After the PR is open the items
+  sit at `Ready for merge` until Merger sets `Done` on merge. If you cannot
+  finish: set the whole batch `Blocked` (set-status.sh), comment the reason plus
   what you need on every issue, post it in the task channel, and
   `send_message` the Prism DM: `<@prism-userId> blocked on issue #<n>: <reason>`. Never
   re-queue blocked work; a human does that.
