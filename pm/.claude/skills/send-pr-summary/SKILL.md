@@ -96,11 +96,13 @@ addresses private):
 curl -s -X POST \
   "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/email/sending/send" \
   -H "Authorization: Bearer $CLOUDFLARE_API_KEY" -H "Content-Type: application/json" \
-  -d '{"from":"noreply@mail.freeflow.im","to":"<email>","subject":"...","text":"...","html":"..."}'
+  -d '{"from":"Free Flow <noreply@mail.freeflow.im>","to":"<email>","subject":"...","text":"...","html":"..."}'
 ```
 
-`from` MUST be `noreply@mail.freeflow.im`. Body accepts only
-`text`/`html` — no attachments/raw/MIME.
+`from` MUST be exactly `Free Flow <noreply@mail.freeflow.im>` — the display
+name matches the server's community broadcasts (#493); the address must stay
+`noreply@mail.freeflow.im`. Body accepts only `text`/`html` — no
+attachments/raw/MIME.
 
 ## 6. Report
 
