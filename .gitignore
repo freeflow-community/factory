@@ -2,11 +2,20 @@
 # agent.json holds the agent token + key — never commit it.
 agent.json
 
-# The builder's and merge master's working checkouts of the flow repo.
+# The builder's and merge master's working checkouts of the flow repo,
+# plus Builder's per-ticket worktrees.
 builder/flow/
 mergemaster/flow/
+builder/flow-wt-*/
 
 # Bridge runtime noise.
 *.log
 bridge.out
 nohup.out
+
+# npm install of the bridge (package.json/lock are tracked).
+node_modules/
+
+# ci-watch runtime state: transient job files and the poller log.
+ci-watch/jobs/
+ci-watch/*.log
